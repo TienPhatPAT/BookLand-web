@@ -63,15 +63,13 @@ const TypeDetail = () => {
     if (event.target.value === "tat-ca") {
       setCurrentType({ name: "Tất cả", id: "tat-ca" });
     } else {
-      setCurrentType(
-        typeList.filter((item) => item.id === event.target.value)[0]
-      );
+      setCurrentType(typeList.filter((item) => item._id === event.target.value)[0]);
     }
     // if
-    fetchApi(getApiEnv() + "books").then((data) => {
+    fetchApi(getApiEnv() + "/Sach").then((data) => {
       if (event.target.value !== "tat-ca") {
-        const newData = data.filter((book) =>
-          book.type.some((t) => t.id === event.target.value)
+        const newData = data?.data.filter((book) =>
+          book.theloaisach.some((t) => t._id === event.target.value)
         );
         setBookList(newData);
       } else {
@@ -82,25 +80,23 @@ const TypeDetail = () => {
   };
 
   useEffect(() => {
-    fetchApi(getApiEnv() + "books").then((data) => {
+    fetchApi(getApiEnv() + "/Sach").then((data) => {
       if (id !== "tat-ca") {
-        const newData = data.filter((book) =>
-          book.type.some((t) => t.id === id)
-        );
+        const newData = data?.data.filter((book) => book.theloaisach.some((t) => t._id === id));
         setBookList(newData);
       } else {
-        setBookList(data);
+        setBookList(data?.data);
       }
       // setFullBookList(newData);
     });
 
-    fetchApi(getApiEnv() + "type").then((data) => {
+    fetchApi(getApiEnv() + "/TheLoai").then((data) => {
       if (id === "tat-ca") {
         setCurrentType({ name: "Tất cả", id: "tat-ca" });
       } else {
-        setCurrentType(data.filter((item) => item.id === id)[0]);
+        setCurrentType(data?.data.filter((item) => item._id === id)[0]);
       }
-      setTypeList(data);
+      setTypeList(data?.data);
     });
   }, []);
 
@@ -116,7 +112,7 @@ const TypeDetail = () => {
       <BreadcrumbBar
         path={[
           { label: "Chủ đề & Thể loại", url: "type" },
-          { label: currentType.name || "Thể loại", url: "" },
+          { label: currentType.ten || "Thể loại", url: "" },
         ]}
       ></BreadcrumbBar>
       <Box
@@ -141,7 +137,7 @@ const TypeDetail = () => {
           <FormControl sx={{ m: 1, minWidth: 120, margin: "0" }}>
             <Select
               fullWidth={true}
-              value={currentType.id}
+              value={currentType._id}
               onChange={handleChange}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
@@ -198,8 +194,8 @@ const TypeDetail = () => {
               <MenuItem value="tat-ca">Tất cả</MenuItem>
               {typeList.map((item, index) => {
                 return (
-                  <MenuItem key={index} value={item.id}>
-                    {item.name}
+                  <MenuItem key={index} value={item._id}>
+                    {item.ten}
                   </MenuItem>
                 );
               })}
@@ -364,25 +360,13 @@ const TypeDetail = () => {
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <GridBookList
-          bookList={bookList
-            .filter(() => true)
-            .sort((a, b) => b.price - a.price)}
-        />
+        <GridBookList bookList={bookList.filter(() => true).sort((a, b) => b.gia - a.gia)} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <GridBookList
-          bookList={bookList
-            .filter(() => true)
-            .sort((a, b) => a.price - b.price)}
-        />
+        <GridBookList bookList={bookList.filter(() => true).sort((a, b) => a.gia - b.gia)} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <GridBookList
-          bookList={bookList.filter(
-            (item, index) => item.isRecommended === true
-          )}
-        />
+        <GridBookList bookList={bookList.filter((item, index) => item.isRecommended === true)} />
       </CustomTabPanel>
     </Container>
   );

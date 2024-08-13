@@ -26,12 +26,12 @@ const RankList = ({ bookList, setCurrentLabel, newLabel }) => {
               )}
             </div>
             <Image className={classes.cover} url={book.img}>
-              <Link to={"/book/" + book.id}>
+              <Link to={"/book/" + book._id}>
                 <div></div>
               </Link>
             </Image>
             <div className={classes.nameWrapper}>
-              <Link to={"/book/" + book.id}>
+              <Link to={"/book/" + book._id}>
                 <Typography
                   sx={{
                     fontSize: "1.8rem",
@@ -39,17 +39,12 @@ const RankList = ({ bookList, setCurrentLabel, newLabel }) => {
                     color: "#fff",
                   }}
                 >
-                  {book.name}
+                  {book.ten}
                 </Typography>
               </Link>
-              <StarBar starCount={book.star}></StarBar>
+              <StarBar starCount={book.__v}></StarBar>
             </div>
-            <div
-              className={clsx(
-                classes.author,
-                "col-2 d-flex justify-content-center"
-              )}
-            >
+            <div className={clsx(classes.author, "col-2 d-flex justify-content-center")}>
               <Typography
                 sx={{
                   fontSize: "1.4rem",
@@ -60,12 +55,7 @@ const RankList = ({ bookList, setCurrentLabel, newLabel }) => {
                 {book.author}
               </Typography>
             </div>
-            <div
-              className={clsx(
-                classes.tool,
-                "col-3  d-flex justify-content-end"
-              )}
-            >
+            <div className={clsx(classes.tool, "col-3  d-flex justify-content-end")}>
               <div className={classes.toolItem}>
                 <Icon.CartBagIcon
                   type="light"
@@ -73,9 +63,7 @@ const RankList = ({ bookList, setCurrentLabel, newLabel }) => {
                   height="1.4rem"
                   width="auto"
                 />
-                <span className={classes.label}>
-                  {abbreviateNumber(book.sold, 0)}
-                </span>
+                <span className={classes.label}>{abbreviateNumber(book.sold, 0)}</span>
               </div>
               <div className={classes.toolItem}>
                 <Icon.EyeIcon
@@ -84,9 +72,7 @@ const RankList = ({ bookList, setCurrentLabel, newLabel }) => {
                   height="1.4rem"
                   width="auto"
                 />
-                <span className={classes.label}>
-                  {abbreviateNumber(book.view, 0)}
-                </span>
+                <span className={classes.label}>{abbreviateNumber(book.view, 0)}</span>
               </div>
               <div className={classes.toolItem}>
                 <Icon.HeartIcon
@@ -95,9 +81,7 @@ const RankList = ({ bookList, setCurrentLabel, newLabel }) => {
                   height="1.4rem"
                   width="auto"
                 />
-                <span className={classes.label}>
-                  {abbreviateNumber(book.favorite, 0)}
-                </span>
+                <span className={classes.label}>{abbreviateNumber(book.favorite, 0)}</span>
               </div>
             </div>
           </div>

@@ -9,8 +9,8 @@ import { fetchApi, getApiEnv } from "../../../utils/api";
 const Type = () => {
   const [typeList, setTypeList] = useState([]);
   useEffect(() => {
-    fetchApi(getApiEnv() + "type").then((data) => {
-      setTypeList(data);
+    fetchApi(getApiEnv() + "/TheLoai").then((data) => {
+      setTypeList(data?.data);
     });
   }, []);
   return (
@@ -22,9 +22,7 @@ const Type = () => {
       }}
     >
       <div className={classes.breadcrumb}>
-        <BreadcrumbBar
-          path={[{ label: "Chủ đề & Thể loại", url: "type" }]}
-        ></BreadcrumbBar>
+        <BreadcrumbBar path={[{ label: "Chủ đề & Thể loại", url: "type" }]}></BreadcrumbBar>
       </div>
       <BookListHeading label="Thể loại" />
       <TypeList typeList={typeList} row={2} col={4} />

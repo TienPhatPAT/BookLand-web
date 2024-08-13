@@ -28,7 +28,7 @@ const BookDetail = () => {
   const [book, setBook] = useState(null);
 
   useEffect(() => {
-    fetchApi(getApiEnv() + "books/" + id)
+    fetchApi(getApiEnv() + "/Sach/" + id)
       .then((data) => {
         const mockReviews = [
           {
@@ -39,20 +39,21 @@ const BookDetail = () => {
                 "https://th.bing.com/th/id/R.e5e6dcd1122d90f64aef39c51c95fca2?rik=nbzY51ZOmhXSMQ&riu=http%3a%2f%2f2.bp.blogspot.com%2f-TynhaBM0klg%2fUuh3dUaWMcI%2fAAAAAAAAAXU%2fEj8cpl6tHQs%2fs1600%2fluffy.png&ehk=3lSXa4amsxZe8%2fwGCrka6Zg2Sq%2bWqgXARQc5aToSenA%3d&risl=&pid=ImgRaw&r=0",
             },
             time: "1 ngày trước",
-            content:
-              "Sách rất hay và bổ ích. Tôi rất thích nội dung của cuốn sách này!",
+            content: "Sách rất hay và bổ ích. Tôi rất thích nội dung của cuốn sách này!",
             likes: 12,
             replies: [],
           },
         ];
 
         setBook({
-          ...data,
+          ...data?.data,
           reviews: data.reviews || mockReviews,
         });
       })
       .catch((error) => console.error("Error fetching Book data:", error));
   }, [id]);
+
+  console.log(book, "book");
 
   const handleClick = () => setInfo(!isShow);
 
@@ -102,10 +103,7 @@ const BookDetail = () => {
               <div className="d-flex flex-column justify-content-start w-100">
                 <h4>Tác giả</h4>
                 {book.author ? (
-                  <RouterLink
-                    to={`/author/${book.author.id}`}
-                    className={classes.user_name}
-                  >
+                  <RouterLink to={`/author/${book.author.id}`} className={classes.user_name}>
                     {book.author.name}
                   </RouterLink>
                 ) : (
@@ -121,14 +119,14 @@ const BookDetail = () => {
               <div className="d-flex flex-column justify-content-start w-100">
                 <h4>Thể loại</h4>
                 <div>
-                  {book.type.map((t) => (
-                    <TypePath key={t.id} id={t.id} name={t.name} />
+                  {book.theloaisach.map((t) => (
+                    <TypePath key={t.id} id={t.id} name={t.ten} />
                   ))}
                 </div>
               </div>
               <div className="d-flex flex-column justify-content-start w-100">
                 <h4>Gói cước</h4>
-                <span>{formatPrice(book.price)}</span>
+                <span>{formatPrice(book.gia)}</span>
               </div>
             </div>
           </div>
@@ -180,11 +178,7 @@ const BookDetail = () => {
             </Button>
           </div>
           <div className={classes.book_description}>
-            {isShow ? (
-              <p>{book.description}</p>
-            ) : (
-              <p>{book.description.substring(0, 100)}...</p>
-            )}
+            {isShow ? <p>{book.description}</p> : <p>{book.mota.substring(0, 100)}...</p>}
             <button onClick={handleClick} className={classes.more_info}>
               {isShow ? "Thu gọn" : "Xem thêm"}
             </button>
@@ -197,15 +191,11 @@ const BookDetail = () => {
               </div>
             </div>
             <div className={classes.reviews_list}>
-              {book.reviews &&
+              {/* {book.reviews &&
                 book.reviews.map((review) => (
                   <div key={review.id} className={classes.review_item}>
                     <div className={classes.avt}>
-                      <img
-                        src={review.user.avatar}
-                        className={classes.avatar}
-                        alt="avatar"
-                      />
+                      <img src={review.user.avatar} className={classes.avatar} alt="avatar" />
                     </div>
                     <div className={classes.review}>
                       <div className={clsx(classes.review_user, "d-flex ")}>
@@ -229,7 +219,7 @@ const BookDetail = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                ))} */}
             </div>
           </div>
         </div>

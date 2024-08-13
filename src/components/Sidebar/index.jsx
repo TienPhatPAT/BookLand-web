@@ -21,7 +21,7 @@ const Sidebar = () => {
           </Link>
         </div>
         <SidebarItem
-          label="Thư viện"
+          label="Trang chủ"
           icon={
             <Icon.BookIconV2
               type="light"
@@ -34,7 +34,7 @@ const Sidebar = () => {
           activeLink={["/book"]}
         />
         <SidebarItem
-          label="Khám phá"
+          label="Gio hàng"
           icon={
             <Icon.EarthIcon
               type="light"

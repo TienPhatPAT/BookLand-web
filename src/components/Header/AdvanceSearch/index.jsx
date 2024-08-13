@@ -72,8 +72,8 @@ const AdvanceSearch = () => {
   };
 
   useEffect(() => {
-    fetchApi(`${getApiEnv()}type`).then((data) => {
-      setTypeList(data.map((item) => item.name));
+    fetchApi(`${getApiEnv()}/TheLoai`).then((data) => {
+      setTypeList(data?.data.map((item) => item.ten));
     });
     fetchApi(`${getApiEnv()}author`).then((data) => {
       setAuthorList(data.map((item) => item.name));
@@ -131,9 +131,7 @@ const AdvanceSearch = () => {
           renderValue={(selected) => {
             if (!selected || selected.length === 0) {
               return (
-                <span className={classes.selectChipPlaceholder}>
-                  Nhấp để chọn các thể loại
-                </span>
+                <span className={classes.selectChipPlaceholder}>Nhấp để chọn các thể loại</span>
               );
             } else
               return (
@@ -181,9 +179,7 @@ const AdvanceSearch = () => {
           renderValue={(selected) => {
             if (!selected || selected.length === 0) {
               return (
-                <span className={classes.selectChipPlaceholder}>
-                  Nhấp để chọn các tác giả
-                </span>
+                <span className={classes.selectChipPlaceholder}>Nhấp để chọn các tác giả</span>
               );
             } else
               return (

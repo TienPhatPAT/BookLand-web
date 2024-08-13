@@ -46,18 +46,18 @@ const Ranking = () => {
   }
 
   useEffect(() => {
-    fetchApi(`${getApiEnv()}books`).then((data) => {
+    fetchApi(`${getApiEnv()}/Sach`).then((data) => {
       setRecomendedBookList(
-        data
+        data?.data
           .filter((item) => item.isRecommended === true)
           .sort((a, b) => a.recomendedPriority - b.recomendedPriority)
       );
-      setNewestBookList(data.sort((a, b) => a.ngayxuatban - b.ngayxuatban));
-      settopBookList(data.sort((a, b) => a.view - b.view));
+      setNewestBookList(data?.data.sort((a, b) => a.ngayxuatban - b.ngayxuatban));
+      settopBookList(data?.data.sort((a, b) => a.luotxem - b.luotxem));
     });
 
-    fetchApi(`${getApiEnv()}type`).then((data) => {
-      setTypeList(data);
+    fetchApi(`${getApiEnv()}/TheLoai`).then((data) => {
+      setTypeList(data?.data);
     });
   }, []);
 
@@ -222,9 +222,7 @@ const Ranking = () => {
         <RankList
           setCurrentLabel={setCurrentLabel}
           newLabel="Bán chạy"
-          bookList={topBookList
-            .slice(0, topBookList.length - 1)
-            .sort((a, b) => b.sold - a.sold)}
+          bookList={topBookList.slice(0, topBookList.length - 1).sort((a, b) => b.sold - a.sold)}
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
@@ -242,7 +240,7 @@ const Ranking = () => {
           newLabel="Xem nhiều"
           bookList={topBookList
             .slice(0, topBookList.length - 1)
-            .sort((a, b) => b.view - a.view)}
+            .sort((a, b) => b.luotxem - a.luotxem)}
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>

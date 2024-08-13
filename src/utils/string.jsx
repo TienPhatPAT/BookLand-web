@@ -23,7 +23,7 @@ export function abbreviateNumber(num, decimals = 1) {
       );
     }
   }
-  return num.toString();
+  return num?.toString();
 }
 
 // export function highlightSubstring(parentString, substring) {

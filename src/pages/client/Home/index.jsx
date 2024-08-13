@@ -61,18 +61,18 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetchApi(`${getApiEnv()}books`).then((data) => {
+    fetchApi(`${getApiEnv()}/Sach`).then((data) => {
       setRecomendedBookList(
-        data
+        data?.data
           .filter((item) => item.isRecommended === true)
           .sort((a, b) => b.recomendedPriority - a.recomendedPriority)
       );
-      setNewestBookList(data.sort((a, b) => b.ngayxuatban - a.ngayxuatban));
-      settopBookList(data.sort((a, b) => b.view - a.view));
+      setNewestBookList(data?.data.sort((a, b) => b.ngayxuatban - a.ngayxuatban));
+      settopBookList(data?.data.sort((a, b) => b.luotxem - a.luotxem));
     });
 
-    fetchApi(`${import.meta.env.VITE_API}type`).then((data) => {
-      setTypeList(data);
+    fetchApi(`${import.meta.env.VITE_API}/TheLoai`).then((data) => {
+      setTypeList(data?.data);
     });
   }, []);
 
@@ -154,12 +154,12 @@ const Home = () => {
           }}
           {...a11yProps(0)}
         />
-        {typeList.map((item, index) => {
+        {typeList?.map((item, index) => {
           return (
             <Tab
               key={index}
               // disableRipple
-              label={item.name}
+              label={item?.ten}
               sx={{
                 padding: ".4rem 2rem",
                 fontSize: "1.2rem",
@@ -211,7 +211,7 @@ const Home = () => {
               bookList={topBookList.filter((book) => {
                 let check = false;
                 book?.type?.map((type) => {
-                  if (type.name === item.name) {
+                  if (type.ten === item.ten) {
                     check = true;
                     return;
                   }
@@ -230,14 +230,7 @@ const Home = () => {
       ></BookListHeading>
       <div className={classes.typeList}>
         {typeList.slice(0, 10).map((item, index) => {
-          return (
-            <TypeItem
-              key={index}
-              id={item.id}
-              image={item.img}
-              label={item.name}
-            />
-          );
+          return <TypeItem key={index} id={item._id} image={item.img} label={item.ten} />;
         })}
         {/* <div>
           <TypeItem

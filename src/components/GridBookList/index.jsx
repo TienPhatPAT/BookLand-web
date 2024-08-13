@@ -26,9 +26,9 @@ const GridBookList = ({ bookList = [] }) => {
           >
             <BookItem
               cover={book.img}
-              name={book.name}
-              label={book.price}
-              id={book.id}
+              name={book.ten}
+              label={book.gia}
+              id={book._id}
               isMargin={false}
             />
           </Box>

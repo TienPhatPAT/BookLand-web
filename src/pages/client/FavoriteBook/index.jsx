@@ -57,9 +57,9 @@ const FavoriteBook = () => {
 
   const handleChange = (event) => {
     navigate("/type/" + event.target.value);
-    fetchApi(getApiEnv() + "books").then((data) => {
-      const newData = data.filter((book) =>
-        book.type.some((t) => t.id === event.target.value)
+    fetchApi(getApiEnv() + "/Sach").then((data) => {
+      const newData = data?.data.filter((book) =>
+        book.type.some((t) => t._id === event.target.value)
       );
       setBookList(newData);
       setFullBookList(newData);
@@ -67,14 +67,14 @@ const FavoriteBook = () => {
   };
 
   useEffect(() => {
-    fetchApi(getApiEnv() + "books").then((data) => {
-      const newData = data.filter((book) => book.type.some((t) => t.id === id));
+    fetchApi(getApiEnv() + "/Sach").then((data) => {
+      const newData = data?.data.filter((book) => book.theloaisach.some((t) => t.id === id));
       setBookList(newData);
       setFullBookList(newData);
     });
 
-    fetchApi(getApiEnv() + "type").then((data) => {
-      setTypeList(data);
+    fetchApi(getApiEnv() + "/TheLoai").then((data) => {
+      setTypeList(data?.data);
     });
   }, []);
 
@@ -267,25 +267,13 @@ const FavoriteBook = () => {
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <GridBookList
-          bookList={bookList
-            .filter(() => true)
-            .sort((a, b) => b.price - a.price)}
-        />
+        <GridBookList bookList={bookList.filter(() => true).sort((a, b) => b.price - a.price)} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <GridBookList
-          bookList={bookList
-            .filter(() => true)
-            .sort((a, b) => a.price - b.price)}
-        />
+        <GridBookList bookList={bookList.filter(() => true).sort((a, b) => a.price - b.price)} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <GridBookList
-          bookList={bookList.filter(
-            (item, index) => item.isRecommended === true
-          )}
-        />
+        <GridBookList bookList={bookList.filter((item, index) => item.isRecommended === true)} />
       </CustomTabPanel>
     </Container>
   );

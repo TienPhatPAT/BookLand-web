@@ -10,13 +10,7 @@ const BookList = ({ heading = "", bookList = [] }) => {
       <div className={classes.bookList}>
         {bookList.map((book, index) => {
           return (
-            <BookItem
-              key={index}
-              cover={book.img}
-              name={book.name}
-              label={book.price}
-              id={book.id}
-            />
+            <BookItem key={index} cover={book.img} name={book.ten} label={book.gia} id={book._id} />
           );
         })}
       </div>
