@@ -74,43 +74,45 @@ const Header = ({
   React.useEffect(() => {
     setSearchLoading(true);
     const delayDebounceFn = setTimeout(() => {
-      fetchApi(getApiEnv() + "/search").then((data) => {
-        const groupedResults = groupResultsByMatchCount(data, searchText);
-        let sortedResults = [];
+      fetchApi(getApiEnv() + `/timkiem/search?text=${searchText}`, { text: searchText }).then(
+        (data) => {
+          const groupedResults = groupResultsByMatchCount(data, searchText);
+          let sortedResults = [];
 
-        Object.keys(groupedResults).forEach((groupKey) => {
-          const groupItems = groupedResults[groupKey];
-          groupItems.sort((a, b) => {
-            if (groupKey !== "match_0") {
-              // Số từ trùng khớp giảm dần
-              const matchCountA = parseInt(groupKey.split("_")[1]);
-              const matchCountB = parseInt(groupKey.split("_")[1]);
-              if (matchCountA !== matchCountB) {
-                return matchCountB - matchCountA;
+          Object.keys(groupedResults).forEach((groupKey) => {
+            const groupItems = groupedResults[groupKey];
+            groupItems.sort((a, b) => {
+              if (groupKey !== "match_0") {
+                // Số từ trùng khớp giảm dần
+                const matchCountA = parseInt(groupKey.split("_")[1]);
+                const matchCountB = parseInt(groupKey.split("_")[1]);
+                if (matchCountA !== matchCountB) {
+                  return matchCountB - matchCountA;
+                }
               }
+              // Count giảm dần
+              return b.count - a.count;
+            });
+
+            // Thêm vào mảng kết quả, chỉ lấy 10 phần tử nếu chưa đủ
+            console.log(sortedResults);
+            sortedResults = [...groupItems.slice(0, 10)];
+            console.log(sortedResults);
+            // console.log(groupItems.slice(0, 10));
+
+            // Kiểm tra nếu đã đủ 10 phần tử thì dừng lặp
+
+            if (sortedResults.length >= 5) {
+              return;
             }
-            // Count giảm dần
-            return b.count - a.count;
           });
 
-          // Thêm vào mảng kết quả, chỉ lấy 10 phần tử nếu chưa đủ
-          console.log(sortedResults);
-          sortedResults = [...groupItems.slice(0, 10)];
-          console.log(sortedResults);
-          // console.log(groupItems.slice(0, 10));
-
-          // Kiểm tra nếu đã đủ 10 phần tử thì dừng lặp
-
-          if (sortedResults.length >= 5) {
-            return;
-          }
-        });
-
-        // console.log(sortedResults);
-        // data.sort((a, b) => a.index - b.index);
-        setSuggestList(sortedResults.slice(0, 5));
-        setSearchLoading(false);
-      });
+          // console.log(sortedResults);
+          // data.sort((a, b) => a.index - b.index);
+          setSuggestList(sortedResults.slice(0, 5));
+          setSearchLoading(false);
+        }
+      );
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);

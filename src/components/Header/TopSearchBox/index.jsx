@@ -43,7 +43,7 @@ const TopSearchBox = ({
 
   useEffect(() => {
     setLoading(true);
-    fetchApi(getApiEnv() + "/search").then((data) => {
+    fetchApi(getApiEnv() + "/timkiem/search").then((data) => {
       data.sort((a, b) => b.count - a.count);
       setSuggestList(data);
       setLoading(false);

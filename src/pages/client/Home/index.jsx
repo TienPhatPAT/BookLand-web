@@ -12,11 +12,13 @@ import BookListHeading from "../../../components/BookListHeading";
 import * as Icon from "../../../components/Icon";
 import BookList from "../../../components/BookList";
 import ArthorList from "../../../components/ArthorList";
+import BlogList from "../../../components/BlogList";
 
 const Home = () => {
   const [value, setValue] = useState(0);
   const [newestBookList, setNewestBookList] = useState([]);
   const [authorList, setAuthorList] = useState([]);
+  const [blogList, setBlogList] = useState([]);
   const [recomendedBookList, setRecomendedBookList] = useState([]);
   const [topBookList, settopBookList] = useState([]);
   const [typeList, setTypeList] = useState([]);
@@ -75,6 +77,9 @@ const Home = () => {
 
     fetchApi(`${import.meta.env.VITE_API}/TheLoai`).then((data) => {
       setTypeList(data?.data);
+    });
+    fetchApi(`${import.meta.env.VITE_API}/baiviet`).then((data) => {
+      setBlogList(data?.data);
     });
     fetchApi(`${import.meta.env.VITE_API}/tacgia`).then((data) => {
       setAuthorList(data?.data);
@@ -312,6 +317,7 @@ const Home = () => {
       </div>
       <BookList bookList={newestBookList} heading="Sách mới nhất" />
       <BookList bookList={recomendedBookList} heading="Đề xuất cho bạn" />
+      <BlogList blogList={blogList} heading="Blog" />
       <ArthorList arthorList={authorList} heading="Tác giả" />
       {/* <BookList bookList={topBookList} heading="Top sách nổi bật" /> */}
       {/* <BookListHeading

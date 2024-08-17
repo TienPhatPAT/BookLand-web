@@ -10,8 +10,8 @@ const BlogBanner = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchApi(getApiEnv() + `banner/${id}`)
-      .then((data) => setBanner(data))
+    fetchApi(getApiEnv() + `/baiviet/${id}`)
+      .then((data) => setBanner(data?.data))
       .catch((error) => setError(error))
       .finally(() => setLoading(false));
   }, [id]);
@@ -30,10 +30,10 @@ const BlogBanner = () => {
 
   return (
     <div className={classes.banner_detail}>
-      
-      <img src={banner.picture} alt={banner.title} />
-      <h1>{banner.title}</h1>
-      <p>{banner.viewer}</p>
+      <img src={banner.img} alt={banner.tieude} />
+      <h1>{banner.tieude}</h1>
+      <p style={{ fontSize: "16px", color: "#fff" }}>{banner.noidung}</p>
+      <p>{banner.luotxem}</p>
     </div>
   );
 };
