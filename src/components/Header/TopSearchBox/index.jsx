@@ -13,8 +13,7 @@ const TopSearchBox = ({
 }) => {
   const [suggestList, setSuggestList] = useState([]);
   const [loading, setLoading] = useState(false);
-  if (localStorage.getItem("search-historyList"))
-    localStorage.setItem("search-historyList", []);
+  if (localStorage.getItem("search-historyList")) localStorage.setItem("search-historyList", []);
 
   const itemStyle = {
     backgroundColor: "rgba(255, 255, 255, 0.05)",
@@ -44,7 +43,7 @@ const TopSearchBox = ({
 
   useEffect(() => {
     setLoading(true);
-    fetchApi(getApiEnv() + "search").then((data) => {
+    fetchApi(getApiEnv() + "/search").then((data) => {
       data.sort((a, b) => b.count - a.count);
       setSuggestList(data);
       setLoading(false);

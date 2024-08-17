@@ -2,7 +2,6 @@ import { Box, Container, Tab, Tabs, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import classes from "./Home.module.scss";
 import PropTypes from "prop-types";
-import BookList from "../../../components/BookList";
 import HomeSlider from "./HomeSlider";
 import homeVideo from "../../../assets/images/book_gif.gif";
 import clsx from "clsx";
@@ -11,10 +10,13 @@ import { useEffect, useState } from "react";
 import { fetchApi, getApiEnv } from "../../../utils/api";
 import BookListHeading from "../../../components/BookListHeading";
 import * as Icon from "../../../components/Icon";
+import BookList from "../../../components/BookList";
+import ArthorList from "../../../components/ArthorList";
 
 const Home = () => {
   const [value, setValue] = useState(0);
   const [newestBookList, setNewestBookList] = useState([]);
+  const [authorList, setAuthorList] = useState([]);
   const [recomendedBookList, setRecomendedBookList] = useState([]);
   const [topBookList, settopBookList] = useState([]);
   const [typeList, setTypeList] = useState([]);
@@ -73,6 +75,9 @@ const Home = () => {
 
     fetchApi(`${import.meta.env.VITE_API}/TheLoai`).then((data) => {
       setTypeList(data?.data);
+    });
+    fetchApi(`${import.meta.env.VITE_API}/tacgia`).then((data) => {
+      setAuthorList(data?.data);
     });
   }, []);
 
@@ -307,6 +312,7 @@ const Home = () => {
       </div>
       <BookList bookList={newestBookList} heading="Sách mới nhất" />
       <BookList bookList={recomendedBookList} heading="Đề xuất cho bạn" />
+      <ArthorList arthorList={authorList} heading="Tác giả" />
       {/* <BookList bookList={topBookList} heading="Top sách nổi bật" /> */}
       {/* <BookListHeading
         icon={<Icon.Icon9 type="light" color="#fff" height={24} />}

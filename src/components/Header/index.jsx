@@ -11,13 +11,14 @@ import { useTheme } from "@mui/material/styles";
 // import FormControl from "@mui/material/FormControl";
 // import Select from "@mui/material/Select";
 // import Chip from "@mui/material/Chip";
-import { Button } from "@mui/material";
+import { Badge, Button } from "@mui/material";
 import TopSearchBox from "./TopSearchBox";
 import SuggestSearch from "./SuggestSearch";
 import { fetchApi, getApiEnv } from "../../utils/api";
 import AdvanceSearch from "./AdvanceSearch";
 import { groupResultsByMatchCount } from "../../utils/array";
 import AccountLogin from "./AccountLogin";
+import { getIdCartList } from "../../services/Cart";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -59,6 +60,7 @@ const Header = ({
   setIsOpenAdvance,
   loginBox,
   setLoginBox,
+  setSignUpBox,
 }) => {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
@@ -67,11 +69,12 @@ const Header = ({
   const searchRef = React.useRef(null);
   const [suggestList, setSuggestList] = React.useState([]);
   const [searchLoading, setSearchLoading] = React.useState(false);
+  const quantity = getIdCartList()?.reduce((total, item) => total + item.quantity, 0);
 
   React.useEffect(() => {
     setSearchLoading(true);
     const delayDebounceFn = setTimeout(() => {
-      fetchApi(getApiEnv() + "search").then((data) => {
+      fetchApi(getApiEnv() + "/search").then((data) => {
         const groupedResults = groupResultsByMatchCount(data, searchText);
         let sortedResults = [];
 
@@ -158,11 +161,7 @@ const Header = ({
             }}
             className="d-flex align-items-center position-relative"
           >
-            <form
-              id="search-form"
-              className={classes.search}
-              onSubmit={submitFormHandle}
-            >
+            <form id="search-form" className={classes.search} onSubmit={submitFormHandle}>
               <input
                 onFocus={openSearchHandle}
                 value={suggestSearch || searchText}
@@ -213,11 +212,7 @@ const Header = ({
               >
                 <path
                   d="M2.44133 9.53674e-07L9.45663 9.53674e-07C9.73358 -0.000268459 10.005 0.0522509 10.2394 0.151481C10.4739 0.250711 10.6618 0.392595 10.7814 0.560708C10.9214 0.760175 10.9753 0.982098 10.937 1.20119C10.8987 1.42027 10.7697 1.62772 10.5647 1.79987L7.05709 4.65948C6.91944 4.76637 6.74925 4.85209 6.55806 4.91084C6.36687 4.96959 6.15915 5 5.94898 5C5.7388 5 5.53108 4.96959 5.33989 4.91084C5.1487 4.85209 4.97851 4.76637 4.84086 4.65948L1.33321 1.79987C1.12824 1.62772 0.999259 1.42027 0.960958 1.20119C0.922659 0.982098 0.976583 0.760175 1.11658 0.560708C1.23618 0.392595 1.42407 0.250711 1.65851 0.151481C1.89296 0.0522509 2.16437 -0.000268459 2.44133 9.53674e-07Z"
-                  fill={
-                    !isOpenAdvance
-                      ? "var(--light-gray-text-color)"
-                      : "var(--primary-color)"
-                  }
+                  fill={!isOpenAdvance ? "var(--light-gray-text-color)" : "var(--primary-color)"}
                 />
               </svg>
             </Button>
@@ -247,13 +242,15 @@ const Header = ({
             {isOpenAdvance && <AdvanceSearch />}
           </div>
         </div>
-        <div
-          className={clsx("d-flex align-items-center", classes.accountWrapper)}
-        >
-          <Icon.CartBagIcon type="light" color="var(--header-text-color)" />
+        <div className={clsx("d-flex align-items-center", classes.accountWrapper)}>
+          <Badge badgeContent={quantity} color="secondary">
+            <NavLink to="/cart">
+              <Icon.CartBagIcon type="light" color="var(--header-text-color)" />
+            </NavLink>
+          </Badge>
           <Icon.BellWithArrow color="var(--header-text-color)" />
           <Icon.SettingIcon type="light" color="var(--header-text-color)" />
-          <AccountLogin loginBox={loginBox} setLoginBox={setLoginBox} />
+          <AccountLogin loginBox={loginBox} setLoginBox={setLoginBox} setSignUpBox={setSignUpBox} />
         </div>
       </div>
       <div className={classes.headingDummy}></div>

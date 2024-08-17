@@ -16,27 +16,27 @@ const AuthorDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const authorData = await fetchApi(getApiEnv() + "author/" + id);
-        console.log("Author Data:", authorData); // Kiểm tra dữ liệu tác giả
+        const authorData = await fetchApi(getApiEnv() + "/tacgia/" + id);
+        console.log("Author Data:", authorData?.data); // Kiểm tra dữ liệu tác giả
 
-        const booksData = await fetchApi(getApiEnv() + "books");
-        console.log("Books Data:", booksData); // Kiểm tra dữ liệu sách
+        const booksData = await fetchApi(getApiEnv() + "/Sach");
+        console.log("Books Data:", booksData?.data); // Kiểm tra dữ liệu sách
 
         // Lọc sách theo authorId
-        const filteredBooks = booksData.filter(
-          (book) => book.author && book.author.id === id
+        const filteredBooks = booksData?.data.filter(
+          (book) => book.tacgia && book.tacgia._id === id
         );
         console.log("Filtered Books:", filteredBooks); // Kiểm tra dữ liệu sách đã lọc
 
-        setAuthor(authorData);
-        setBooks(filteredBooks);
+        setAuthor(authorData?.data);
+        setBooks(filteredBooks?.data);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu:", error);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [id, setAuthor, setBooks]);
 
   if (author === null || author === undefined) {
     return <p>Đang tải...</p>;
@@ -51,9 +51,9 @@ const AuthorDetail = () => {
       }}
       className={classes.authorDetailWrapper}
     >
-      <BreadcrumbBar path={[{ label: author.name, url: "" }]} />
+      <BreadcrumbBar path={[{ label: author?.ten, url: "" }]} />
       <div className={clsx(classes.authorDetail, "d-flex")}>
-        <Image url={author.profilePicture} className={classes.avatar} />
+        <Image url={author?.img} className={classes.avatar} />
         <div className={classes.infoAuthor}>
           <Typography
             variant="h1"
@@ -63,7 +63,7 @@ const AuthorDetail = () => {
             }}
             className={classes.name}
           >
-            {author.name}
+            {author?.ten}
           </Typography>
           <Typography
             sx={{
@@ -71,7 +71,7 @@ const AuthorDetail = () => {
             }}
             className={classes.description}
           >
-            {author.description}
+            {author?.tieusu}
           </Typography>
         </div>
       </div>

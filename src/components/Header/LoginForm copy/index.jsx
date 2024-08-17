@@ -2,10 +2,10 @@ import { useState } from "react";
 import { TextField, Button, Container, Box, Typography } from "@mui/material";
 import classes from "./LoginForm.module.scss";
 // import logo from "../../../assets/images/";
-import * as Icon from "../../../components/Icon";
+import * as Icon from "../../Icon";
 import { getApiEnv } from "../../../utils/api";
 
-const LoginForm = ({ setLoginBox, setSignUpBox }) => {
+const LoginForm = ({ setLoginBox }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -79,10 +79,7 @@ const LoginForm = ({ setLoginBox, setSignUpBox }) => {
       if (response.ok) {
         // Đăng nhập thành công
         const data = await response.json();
-        setLoginBox(false);
-        alert("Đăng nhập thành công:");
-        // Lưu token vào localStorage
-        localStorage.setItem("token", data.token);
+        console.log("Đăng nhập thành công:", data);
       } else {
         // Đăng nhập thất bại
         const errorData = await response.json();
@@ -157,22 +154,6 @@ const LoginForm = ({ setLoginBox, setSignUpBox }) => {
             }}
           >
             Đăng nhập
-          </Button>
-          <Button
-            onClick={() => setSignUpBox(true)}
-            fullWidth
-            variant="outlined"
-            // color="primary"
-            sx={{
-              borderRadius: "100px !important",
-              border: "1px solid var(--primary-color) !important",
-              color: "var(--primary-color) !important",
-              fontSize: "1.3rem !important",
-              fontWeight: "500",
-              marginTop: "2rem",
-            }}
-          >
-            Đăng ký
           </Button>
         </Box>
       </Box>

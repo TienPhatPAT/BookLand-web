@@ -38,8 +38,7 @@ const BookItem = ({
                 className={clsx(classes.label, {
                   [classes.label_free]: label === "free",
                   [classes.label_membership]: label === "membership",
-                  [classes.label_price]:
-                    label !== "free" && label !== "membership",
+                  [classes.label_price]: label !== "free" && label !== "membership",
                 })}
               >
                 {label === "free" && (

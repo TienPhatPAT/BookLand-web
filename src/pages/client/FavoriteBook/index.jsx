@@ -57,7 +57,7 @@ const FavoriteBook = () => {
 
   const handleChange = (event) => {
     navigate("/type/" + event.target.value);
-    fetchApi(getApiEnv() + "/Sach").then((data) => {
+    fetchApi(getApiEnv() + "/sachyeuthich").then((data) => {
       const newData = data?.data.filter((book) =>
         book.type.some((t) => t._id === event.target.value)
       );

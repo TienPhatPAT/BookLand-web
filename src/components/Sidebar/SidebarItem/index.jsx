@@ -1,10 +1,10 @@
-import { Button } from "@mui/material";
+import { Badge, Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import classes from "./SidebarITem.module.scss";
 import clsx from "clsx";
 import React, { useState } from "react";
 
-const SidebarItem = ({ activeLink = [], icon, label, to }) => {
+const SidebarItem = ({ activeLink = [], icon, label, to, badge = 0 }) => {
   const style = { "--sidebar-text-color": "var(--white-text-color)" };
   const [active, setActive] = useState(false);
 
@@ -25,8 +25,7 @@ const SidebarItem = ({ activeLink = [], icon, label, to }) => {
         }
         if (isUrlContainsAnyPath(activeLink)) setActive(true);
         return clsx(classes.sidebarItem, {
-          [classes.sidebarItem_active]:
-            isActive || isUrlContainsAnyPath(activeLink),
+          [classes.sidebarItem_active]: isActive || isUrlContainsAnyPath(activeLink),
         });
       }}
     >
@@ -38,7 +37,13 @@ const SidebarItem = ({ activeLink = [], icon, label, to }) => {
             })}
           {!active && icon}
         </div>
-        <span className={classes.label}>{label}</span>
+        {badge ? (
+          <Badge badgeContent={badge} color="secondary">
+            <span className={classes.label}>{label}</span>
+          </Badge>
+        ) : (
+          <span className={classes.label}>{label}</span>
+        )}
       </Button>
     </NavLink>
   );

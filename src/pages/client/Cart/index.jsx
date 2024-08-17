@@ -17,11 +17,9 @@ const Cart = () => {
     // resetCart();
     console.log(getIdCartList());
     getIdCartList().map((cartInfor) => {
-      fetchApi(getApiEnv() + "books/" + cartInfor.id).then((data, index) => {
-        setCartList((prev) =>
-          prev.concat({ ...data, quantity: cartInfor.quantity })
-        );
-        setTotalPrice((prev) => prev + cartInfor.quantity * data.price);
+      fetchApi(getApiEnv() + "/Sach/" + cartInfor.id).then((data, index) => {
+        setCartList((prev) => prev.concat({ ...data?.data, quantity: cartInfor.quantity }));
+        setTotalPrice((prev) => prev + cartInfor.quantity * data?.data.gia);
       });
     });
   }, []);
@@ -36,9 +34,7 @@ const Cart = () => {
     >
       <div className={classes.cart}>
         <div className={classes.breadcrumb}>
-          <BreadcrumbBar
-            path={[{ label: "Sách của bạn", url: "" }]}
-          ></BreadcrumbBar>
+          <BreadcrumbBar path={[{ label: "Sách của bạn", url: "" }]}></BreadcrumbBar>
         </div>
         <Button
           disableRipple
@@ -71,10 +67,7 @@ const Cart = () => {
           </div>
           <div className={classes.cartContentPaymentBox}>
             <PaymentBox
-              totalQuantity={getIdCartList().reduce(
-                (total, item) => total + item.quantity,
-                0
-              )}
+              totalQuantity={getIdCartList()?.reduce((total, item) => total + item.quantity, 0)}
               totalPrice={totalPrice}
             />
           </div>

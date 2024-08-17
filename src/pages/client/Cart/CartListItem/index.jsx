@@ -75,7 +75,7 @@ const CartListItem = (props) => {
                   maxWidth: "100%",
                 }}
               >
-                <Link to={"/book/" + props.id}>{props.name}</Link>
+                <Link to={"/book/" + props._id}>{props.ten}</Link>
               </Typography>
               <Typography
                 sx={{
@@ -84,12 +84,12 @@ const CartListItem = (props) => {
                   fontWeight: "400",
                 }}
               >
-                {props.author}
+                {props.tacgia}
               </Typography>
               <div className={classes.quantity}>
                 <Button
                   sx={quantityBtnStyle}
-                  onClick={() => decreaseCartHandle(props.id, props.price)}
+                  onClick={() => decreaseCartHandle(props._id, props.gia)}
                   disabled={quantity === 1}
                 >
                   <Icon.PlusIcon color="var(--gray-text-color)" />
@@ -106,7 +106,7 @@ const CartListItem = (props) => {
                 </Typography>
                 <Button
                   sx={quantityBtnStyle}
-                  onClick={() => increaseCartHandle(props.id, props.price)}
+                  onClick={() => increaseCartHandle(props._id, props.gia)}
                 >
                   <Icon.MinusIcon color="var(--gray-text-color)" />
                 </Button>
@@ -142,12 +142,7 @@ const CartListItem = (props) => {
                 </Typography>
               </Button>
             </div>
-            <div
-              className={clsx(
-                classes.priceWrapper,
-                "d-flex align-items-center"
-              )}
-            >
+            <div className={clsx(classes.priceWrapper, "d-flex align-items-center")}>
               <Typography
                 sx={{
                   fontWeight: "400",
@@ -167,12 +162,12 @@ const CartListItem = (props) => {
                 }}
                 className={classes.price}
               >
-                {formatMoney(props.price)} VNĐ
+                {formatMoney(props.gia)} VNĐ
               </Typography>
             </div>
           </div>
           <Button
-            onClick={() => removeCartHandle(props.id)}
+            onClick={() => removeCartHandle(props._id)}
             className={classes.deleteBtn}
             sx={{
               minWidth: "unset",

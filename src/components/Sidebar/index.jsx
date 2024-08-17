@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import classes from "./Sidebar.module.scss";
 import lightIcon from "../../assets/icons/lights.svg";
-import { Button } from "@mui/material";
 import SidebarItem from "./SidebarItem";
 import * as Icon from "../Icon";
 import SidebarLine from "./SidebarLine";
@@ -34,7 +33,7 @@ const Sidebar = () => {
           activeLink={["/book"]}
         />
         <SidebarItem
-          label="Gio hàng"
+          label="Giỏ hàng"
           icon={
             <Icon.EarthIcon
               type="light"

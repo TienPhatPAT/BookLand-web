@@ -2,12 +2,13 @@ import { useState } from "react";
 import { TextField, Button, Container, Box, Typography } from "@mui/material";
 import classes from "./LoginForm.module.scss";
 // import logo from "../../../assets/images/";
-import * as Icon from "../../../components/Icon";
+import * as Icon from "../../Icon";
 import { getApiEnv } from "../../../utils/api";
 
-const LoginForm = ({ setLoginBox, setSignUpBox }) => {
+const SignUpForm = ({ setSignUpBox, setLoginBox }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const inputStyle = {
     marginTop: "1rem",
@@ -58,6 +59,7 @@ const LoginForm = ({ setLoginBox, setSignUpBox }) => {
   };
 
   const onCloseLoginForm = () => {
+    setSignUpBox(false);
     setLoginBox(false);
   };
 
@@ -65,7 +67,7 @@ const LoginForm = ({ setLoginBox, setSignUpBox }) => {
     event.preventDefault();
 
     try {
-      const response = await fetch(getApiEnv() + "/auth/login", {
+      const response = await fetch(getApiEnv() + "/auth/dangky", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,20 +75,21 @@ const LoginForm = ({ setLoginBox, setSignUpBox }) => {
         body: JSON.stringify({
           email: email,
           matkhau: password,
+          name: name,
+          // loaitaikhoan: 1,
         }),
       });
 
       if (response.ok) {
         // Đăng nhập thành công
         const data = await response.json();
-        setLoginBox(false);
-        alert("Đăng nhập thành công:");
-        // Lưu token vào localStorage
-        localStorage.setItem("token", data.token);
+        alert("Đăng ký thành công:", data);
+        setSignUpBox(false);
+        setLoginBox(true);
       } else {
-        // Đăng nhập thất bại
+        // Đăng ký thất bại
         const errorData = await response.json();
-        alert("Đăng nhập thất bại: " + errorData.message);
+        alert("Đăng ký thất bại: " + errorData.message);
       }
     } catch (error) {
       alert("Lỗi khi gửi yêu cầu đăng nhập: " + error.message);
@@ -111,9 +114,23 @@ const LoginForm = ({ setLoginBox, setSignUpBox }) => {
       >
         <Icon.Logo width="100px" />
         <Typography component="h1" variant="h5">
-          Đăng nhập
+          Đăng ký
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            name="name"
+            autoComplete="off"
+            autoFocus
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            sx={inputStyle}
+          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -156,22 +173,6 @@ const LoginForm = ({ setLoginBox, setSignUpBox }) => {
               marginTop: "2rem",
             }}
           >
-            Đăng nhập
-          </Button>
-          <Button
-            onClick={() => setSignUpBox(true)}
-            fullWidth
-            variant="outlined"
-            // color="primary"
-            sx={{
-              borderRadius: "100px !important",
-              border: "1px solid var(--primary-color) !important",
-              color: "var(--primary-color) !important",
-              fontSize: "1.3rem !important",
-              fontWeight: "500",
-              marginTop: "2rem",
-            }}
-          >
             Đăng ký
           </Button>
         </Box>
@@ -181,4 +182,4 @@ const LoginForm = ({ setLoginBox, setSignUpBox }) => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

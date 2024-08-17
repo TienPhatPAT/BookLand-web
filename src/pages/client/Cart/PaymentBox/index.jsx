@@ -21,10 +21,12 @@ const UserInfoForm = ({ open, handleClose, onSave }) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [note, setNote] = useState("");
 
   const [nameError, setNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [addressError, setAddressError] = useState(false);
+  const [noteError, setNoteError] = useState(false);
 
   const handleSave = () => {
     let hasError = false;
@@ -50,8 +52,15 @@ const UserInfoForm = ({ open, handleClose, onSave }) => {
       setAddressError(false);
     }
 
+    if (note.trim() === "") {
+      setNoteError(true);
+      hasError = true;
+    } else {
+      setNoteError(false);
+    }
+
     if (!hasError) {
-      onSave({ name, phone, address });
+      onSave({ name, phone, address, note });
       handleClose();
     }
   };
@@ -62,14 +71,12 @@ const UserInfoForm = ({ open, handleClose, onSave }) => {
       onClose={handleClose}
       PaperProps={{
         sx: {
-          backgroundColor: "var(--popup-background-color)", // Màu nền popup
+          backgroundColor: "#000", // Màu nền popup
           color: "var(--white-text-color)", // Màu chữ trong popup
         },
       }}
     >
-      <DialogTitle sx={{ color: "var(--primary-color)" }}>
-        Điền thông tin người dùng
-      </DialogTitle>
+      <DialogTitle sx={{ color: "var(--primary-color)" }}>Điền thông tin người dùng</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -162,6 +169,38 @@ const UserInfoForm = ({ open, handleClose, onSave }) => {
             },
           }}
         />
+        <TextField
+          margin="dense"
+          id="note"
+          label="Ghi chú"
+          type="text"
+          fullWidth
+          variant="outlined"
+          multiline
+          rows={4}
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          error={noteError}
+          helperText={noteError ? "Vui lòng điền ghi chú" : ""}
+          InputProps={{
+            style: {
+              color: "var(--white-text-color)",
+            },
+          }}
+          InputLabelProps={{
+            style: {
+              color: "var(--white-text-color)",
+            },
+          }}
+          sx={{
+            ".MuiOutlinedInput-notchedOutline": {
+              borderColor: "var(--white-text-color)",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "var(--primary-color)",
+            },
+          }}
+        />
         <Button
           sx={{
             marginTop: "1rem",
@@ -186,7 +225,7 @@ const UserInfoForm = ({ open, handleClose, onSave }) => {
 const PaymentBox = ({ totalQuantity, totalPrice }) => {
   const [open, setOpen] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const navigate = useNavigate(); // Hook cho việc điều hướng
 
@@ -210,6 +249,7 @@ const PaymentBox = ({ totalQuantity, totalPrice }) => {
     }
 
     setOrderSuccess(true);
+    localStorage.removeItem("cart");
     setTimeout(() => {
       navigate("/billing"); // Chuyển hướng sau khi đặt hàng thành công
     }, 1000); // Thay đổi độ trễ nếu cần
@@ -250,16 +290,8 @@ const PaymentBox = ({ totalQuantity, totalPrice }) => {
             },
           }}
         >
-          <FormControlLabel
-            value="momo"
-            control={<Radio />}
-            label="Thanh toán Momo"
-          />
-          <FormControlLabel
-            value="cod"
-            control={<Radio />}
-            label="Thanh toán khi nhận hàng"
-          />
+          <FormControlLabel value="momo" control={<Radio />} label="Thanh toán Momo" />
+          <FormControlLabel value="cod" control={<Radio />} label="Thanh toán khi nhận hàng" />
         </RadioGroup>
       </FormControl>
 
@@ -297,7 +329,7 @@ const PaymentBox = ({ totalQuantity, totalPrice }) => {
         sx={{
           fontWeight: "600",
           fontSize: "1.6rem",
-          color: "var(--white-text-color)",
+          color: "#fff !important",
           marginTop: "3rem",
           width: "100%",
           backgroundColor: "var(--primary-color)",
@@ -320,11 +352,7 @@ const PaymentBox = ({ totalQuantity, totalPrice }) => {
           </>
         )}
       </Button>
-      <UserInfoForm
-        open={open}
-        handleClose={handleClose}
-        onSave={handleSaveUserInfo}
-      />
+      <UserInfoForm open={open} handleClose={handleClose} onSave={handleSaveUserInfo} />
 
       {userInfo && (
         <div className={classes.userInfo}>
@@ -365,6 +393,15 @@ const PaymentBox = ({ totalQuantity, totalPrice }) => {
           >
             Địa chỉ: {userInfo.address}
           </Typography>
+          <Typography
+            sx={{
+              fontWeight: "400",
+              fontSize: "1.4rem",
+              color: "var(--white-text-color)",
+            }}
+          >
+            Ghi chú: {userInfo.note}
+          </Typography>
         </div>
       )}
 
@@ -378,13 +415,10 @@ const PaymentBox = ({ totalQuantity, totalPrice }) => {
           },
         }}
       >
-        <DialogTitle sx={{ color: "var(--primary-color)" }}>
-          Đặt hàng thành công
-        </DialogTitle>
+        <DialogTitle sx={{ color: "var(--primary-color)" }}>Đặt hàng thành công</DialogTitle>
         <DialogContent>
           <Typography>
-            Cảm ơn bạn đã đặt hàng! Chúng tôi sẽ liên hệ với bạn sớm nhất để xác
-            nhận đơn hàng.
+            Cảm ơn bạn đã đặt hàng! Chúng tôi sẽ liên hệ với bạn sớm nhất để xác nhận đơn hàng.
           </Typography>
           <Button
             sx={{

@@ -88,10 +88,10 @@ const HomeSlider = () => {
 
   useEffect(() => {
     // const url = "http://localhost:4000/banner"; // URL của API bạn muốn fetch
-    fetchApi(getApiEnv() + "banner")
+    fetchApi(getApiEnv() + "/banner")
       .then((data) => {
         console.log("Fetched data:", data); // Logging dữ liệu để kiểm tra
-        setData(data);
+        setData(data?.data);
       })
       .catch((error) => {
         console.error("Fetch error:", error); // Logging lỗi để kiểm tra
@@ -142,7 +142,7 @@ const HomeSlider = () => {
               {/* <img src="https://307a0e78.vws.vegacdn.vn/view/v2/image/img.banner_web_v2/0/0/0/3403.jpg?v=1&w=1920&h=600" /> */}
               <div
                 style={{
-                  "--background-url": `url("${item.picture}")`,
+                  "--background-url": `url("${item.image}")`,
                 }}
               />
             </Link>

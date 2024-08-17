@@ -43,15 +43,11 @@ export function decreaseQuantityById(bookId) {
       console.log("removed one " + bookId + " successfully");
     } else {
       // If the quantity is zero or less, do not perform any action and log a failure message
-      console.log(
-        "Failed to update book " + bookId + ": quantity cannot be negative."
-      );
+      console.log("Failed to update book " + bookId + ": quantity cannot be negative.");
     }
   } else {
     // If the book is not found in the cart, log a failure message
-    console.log(
-      "Failed to update book " + bookId + ": book not found in cart."
-    );
+    console.log("Failed to update book " + bookId + ": book not found in cart.");
   }
 }
 
@@ -70,9 +66,7 @@ export function removeCartById(bookId) {
     console.log("Removed book with ID " + bookId + " successfully");
   } else {
     // If the book is not found in the cart, log a failure message
-    console.log(
-      "Failed to remove book with ID " + bookId + ": book not found in cart."
-    );
+    console.log("Failed to remove book with ID " + bookId + ": book not found in cart.");
   }
 }
 

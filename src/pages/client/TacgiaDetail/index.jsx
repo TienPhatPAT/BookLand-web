@@ -22,7 +22,7 @@ import * as Icon from "../../../components/Icon";
 import { increaseQuantityById } from "../../../services/Cart";
 import TypePath from "../Type/TypePath";
 
-const BookDetail = () => {
+const TacgiaDetail = () => {
   const { id } = useParams();
   const [isShow, setInfo] = useState(false);
   const [book, setBook] = useState(null);
@@ -232,4 +232,4 @@ const BookDetail = () => {
   );
 };
 
-export default BookDetail;
+export default TacgiaDetail;

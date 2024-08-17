@@ -29,9 +29,8 @@ const BillingDetail = () => {
 
   // Tính toán tổng số tiền
   const calculateTotalAmount = () => {
-    return order.items.reduce(
-      (total, item) =>
-        total + parseFloat(item.price.replace(/[^0-9]/g, "")) * item.quantity,
+    return order.items?.reduce(
+      (total, item) => total + parseFloat(item.price.replace(/[^0-9]/g, "")) * item.quantity,
       0
     );
   };
@@ -50,9 +49,7 @@ const BillingDetail = () => {
       <Typography className={classes.infoText}>
         Ngày đặt hàng: {new Date(order.date).toLocaleDateString()}
       </Typography>
-      <Typography className={classes.infoText}>
-        Trạng thái: {order.status}
-      </Typography>
+      <Typography className={classes.infoText}>Trạng thái: {order.status}</Typography>
     </Box>
   );
 
@@ -63,15 +60,9 @@ const BillingDetail = () => {
         <Typography variant="h6" className={classes.productName}>
           {item.name}
         </Typography>
-        <Typography className={classes.productAuthor}>
-          Tác giả: {item.author}
-        </Typography>
-        <Typography className={classes.productPrice}>
-          Giá: {item.price}
-        </Typography>
-        <Typography className={classes.productQuantity}>
-          Số lượng: {item.quantity}
-        </Typography>
+        <Typography className={classes.productAuthor}>Tác giả: {item.author}</Typography>
+        <Typography className={classes.productPrice}>Giá: {item.price}</Typography>
+        <Typography className={classes.productQuantity}>Số lượng: {item.quantity}</Typography>
       </Box>
     </Box>
   );
@@ -82,9 +73,7 @@ const BillingDetail = () => {
         Hóa Đơn
       </Typography>
       <Box className={classes.paymentStatus}>
-        <Typography className={classes.paymentStatusText}>
-          Trạng thái thanh toán:
-        </Typography>
+        <Typography className={classes.paymentStatusText}>Trạng thái thanh toán:</Typography>
         <Typography className={paymentStatusClass}>{paymentStatus}</Typography>
       </Box>
       <Box className={classes.invoiceItem}>
@@ -98,9 +87,7 @@ const BillingDetail = () => {
         <Typography className={classes.invoiceAmount}>30.000 VNĐ</Typography>
       </Box>
       <Box className={`${classes.invoiceItem} ${classes.invoiceTotal}`}>
-        <Typography className={classes.invoiceText}>
-          Tổng thanh toán:
-        </Typography>
+        <Typography className={classes.invoiceText}>Tổng thanh toán:</Typography>
         <Typography className={classes.invoiceAmount}>
           {(calculateTotalAmount() * 1 + 30000).toLocaleString()} VNĐ
         </Typography>
@@ -132,24 +119,16 @@ const BillingDetail = () => {
           <Typography variant="h5" className={classes.sectionTitle}>
             Danh Sách Sản Phẩm
           </Typography>
-          <Box className={classes.productList}>
-            {order.items.map(renderProductItem)}
-          </Box>
+          <Box className={classes.productList}>{order.items.map(renderProductItem)}</Box>
           {renderInvoice()}
         </Box>
         <Box className={classes.buyerInfoContainer}>
           <Box className={classes.buyerInfo}>
-            <img
-              src={buyer.avatarUrl}
-              alt="Avatar"
-              className={classes.avatar}
-            />
+            <img src={buyer.avatarUrl} alt="Avatar" className={classes.avatar} />
             <Typography className={classes.buyerTitle}>{buyer.name}</Typography>
             <Typography className={classes.buyerText}>{buyer.email}</Typography>
             <Typography className={classes.buyerText}>{buyer.phone}</Typography>
-            <Typography className={classes.buyerText}>
-              {buyer.address}
-            </Typography>
+            <Typography className={classes.buyerText}>{buyer.address}</Typography>
             <Button
               className={classes.contactButton}
               onClick={() => navigate("/customer-help")} // Chuyển hướng đến trang hỗ trợ
