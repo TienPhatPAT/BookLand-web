@@ -317,7 +317,7 @@ const Home = () => {
       </div>
       <BookList bookList={newestBookList} heading="Sách mới nhất" />
       <BookList bookList={recomendedBookList} heading="Đề xuất cho bạn" />
-      <BlogList blogList={blogList} heading="Blog" />
+      <BlogList blogList={blogList} heading="Bài Viết" />
       <ArthorList arthorList={authorList} heading="Tác giả" />
       {/* <BookList bookList={topBookList} heading="Top sách nổi bật" /> */}
       {/* <BookListHeading
